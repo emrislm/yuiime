@@ -9,8 +9,8 @@
         <ContentPage Title="Menu">
             <StackLayout Padding="20">
                 <!-- TODO: // Update the Layout and add some real menu items  -->
-                <Button Text="AboutPage" Command="{Binding NavigateCommand}" CommandParameter="AboutPage" />
-                <Button Text="TestPage" Command="{Binding NavigateCommand}" CommandParameter="TestPage" />
+                <Button Text="About" Command="{Binding NavigateCommand}" CommandParameter="AboutPage" />
+                <Button Text="Test" Command="{Binding NavigateCommand}" CommandParameter="TestPage" />
             </StackLayout>
         </ContentPage>
     </MasterDetailPage.Master>

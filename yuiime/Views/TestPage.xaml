@@ -6,12 +6,53 @@
              x:Class="yuiime.Views.TestPage"
              Title="{Binding Title}">
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+    <ContentPage.Padding>
+                                              <!-- links, boven, rechts, onder -->
+        <OnPlatform x:TypeArguments="Thickness" Android="10" />
+    </ContentPage.Padding>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+        <SearchBar x:Name="searchBar" Grid.Row="0" Grid.ColumnSpan="2" Placeholder="Search" SearchCommand="{Binding PerformSearch}" 
+                   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
+        <!--<Entry Grid.Row="1" Grid.Column="0" Text="{Binding InputText, Mode=OneWayToSource}" Placeholder="Zoek iets"/>
+        <Button Grid.Row="1" Grid.Column="1" Text="Search" Command="{Binding SearchCommand}"></Button>-->
         
-        <Entry Text="{Binding InputText, Mode=OneWayToSource}" Placeholder="Zoek iets"/>
-        <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
-        
-        <Label Text="{Binding LabelText}" />
-    </StackLayout>
+        <StackLayout Grid.Row="2" Grid.ColumnSpan="2" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <StackLayout BackgroundColor="Aqua" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label Text="Title:" />
+                <Label Text="{Binding L_Title}" />
+            </StackLayout>
+            <StackLayout BackgroundColor="Aqua" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label Text="Description:" />
+                <Label Text="{Binding L_Description}" />
+            </StackLayout>
+            <StackLayout BackgroundColor="Aqua" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label Text="Episodes:" />
+                <Label Text="{Binding L_Episodes}" />
+            </StackLayout>
+            <StackLayout BackgroundColor="Aqua" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label Text="Rated:" />
+                <Label Text="{Binding L_Rated}" />
+            </StackLayout>
+            <StackLayout BackgroundColor="Aqua" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label Text="Score:" />
+                <Label Text="{Binding L_Score}" />
+            </StackLayout>
+            <StackLayout BackgroundColor="Aqua">
+                <Image Source="{Binding L_ImgPath}"/>
+            </StackLayout>
+        </StackLayout>
+    </Grid>
   
 </ContentPage>

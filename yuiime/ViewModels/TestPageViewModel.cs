@@ -1,41 +1,124 @@
-﻿using Prism.Commands;
+﻿using JikanDotNet;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace yuiime.ViewModels
 {
     public class TestPageViewModel : ViewModelBase
     {
-        public DelegateCommand SaveCommand { get; }
+        private Jikan jikan;
+        private string inputText, l_Title, l_Description, l_Episodes, l_Rated, l_Score, l_imgPath;
 
-        public TestPageViewModel(INavigationService navigationService) :base(navigationService)
+        private IPageDialogService pageDialogService;
+
+        //public DelegateCommand SearchCommand { get; }
+
+        public TestPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService) :base(navigationService)
         {
             Title = "Test Page hahahah";
+            jikan = new Jikan(true);
 
-            SaveCommand = new DelegateCommand(OnSave);
+            this.pageDialogService = pageDialogService;
+
+            //SearchCommand = new DelegateCommand(OnSearch);
         }
 
-        private void OnSave()
+        public ICommand PerformSearch => new Command<string>(async (string query) =>
         {
-            LabelText = InputText;
-        }
+            if (query != "")
+            {
+                AnimeSearchResult animeSearchResult = await jikan.SearchAnime(query);
 
-        private string labelText;
-        public string LabelText
-        {
-            get { return labelText; }
-            set { SetProperty(ref labelText, value); }
-        }
-        private string inputText;
+                L_Title = animeSearchResult.Results.First().Title;
+                L_Description = animeSearchResult.Results.First().Description;
+                L_Episodes = Convert.ToString(animeSearchResult.Results.First().Episodes);
+                L_Rated = animeSearchResult.Results.First().Rated;
+                L_Score = Convert.ToString(animeSearchResult.Results.First().Score);
+                L_ImgPath = animeSearchResult.Results.First().ImageURL;
+
+                Console.WriteLine(L_ImgPath);
+            }
+            else
+            {
+                await pageDialogService.DisplayAlertAsync("Oops", "Hmmm... Een leeg input?", "try again?");
+
+                L_Title = String.Empty;
+                L_Description = String.Empty;
+                L_Episodes = String.Empty;
+                L_Rated = String.Empty;
+                L_Score = String.Empty;
+                L_ImgPath = String.Empty;
+            }
+        });
+
+
         public string InputText
         {
             get { return inputText; }
             set { SetProperty(ref inputText, value); }
         }
+        public string L_Title
+        {
+            get { return l_Title; }
+            set { SetProperty(ref l_Title, value); }
+        }
+        public string L_Description
+        {
+            get { return l_Description; }
+            set { SetProperty(ref l_Description, value); }
+        }
+        public string L_Episodes
+        {
+            get { return l_Episodes; }
+            set { SetProperty(ref l_Episodes, value); }
+        }
+        public string L_Rated
+        {
+            get { return l_Rated; }
+            set { SetProperty(ref l_Rated, value); }
+        }
+        public string L_Score
+        {
+            get { return l_Score; }
+            set { SetProperty(ref l_Score, value); }
+        }
+        public string L_ImgPath
+        {
+            get { return l_imgPath; }
+            set { SetProperty(ref l_imgPath, value); }
+        }
 
 
+        //private async void OnSearch()
+        //{
+        //    if (InputText != "")
+        //    {
+        //        AnimeSearchResult animeSearchResult = await jikan.SearchAnime(InputText);
+
+        //        L_Title = animeSearchResult.Results.First().Title;
+        //        L_Description = animeSearchResult.Results.First().Description;
+        //        L_Episodes = Convert.ToString(animeSearchResult.Results.First().Episodes);
+        //        L_Rated = animeSearchResult.Results.First().Rated;
+        //        L_Score = Convert.ToString(animeSearchResult.Results.First().Score);
+        //    }
+        //    else
+        //    {
+        //        await pageDialogService.DisplayAlertAsync("Oops", "Hmmm... Een leeg input?", "try again?");
+
+        //        L_Title = String.Empty;
+        //        L_Description = String.Empty;
+        //        L_Episodes = String.Empty;
+        //        L_Rated = String.Empty;
+        //        L_Score = String.Empty;             
+        //    }
+
+        //}
     }
 }
