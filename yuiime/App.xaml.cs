@@ -19,7 +19,8 @@ namespace yuiime
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("/MainMasterDetail/NavigationPage/AboutPage");
+            //await NavigationService.NavigateAsync("/MainMasterDetail/NavigationPage/AboutPage");
+            await NavigationService.NavigateAsync("NavigationPage/MainTabbedPage?createTab=TestPage&createTab=AnimePage&createTab=MangaPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -31,6 +32,9 @@ namespace yuiime
             containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
             containerRegistry.RegisterForNavigation<MainMasterDetail, MainMasterDetailViewModel>();
             containerRegistry.RegisterForNavigation<AboutPage, AboutPageViewModel>();
+            containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>();
+            containerRegistry.RegisterForNavigation<AnimePage, AnimePageViewModel>();
+            containerRegistry.RegisterForNavigation<MangaPage, MangaPageViewModel>();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace yuiime.ViewModels
 
         public TestPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService) :base(navigationService)
         {
-            Title = "Test Page hahahah";
+            Title = "Test Page";
             jikan = new Jikan(true);
 
             this.pageDialogService = pageDialogService;

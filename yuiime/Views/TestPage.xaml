@@ -3,56 +3,102 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:Class="yuiime.Views.TestPage"
              Title="{Binding Title}">
+    <!--<Entry Grid.Row="1" Grid.Column="0" Text="{Binding InputText, Mode=OneWayToSource}" Placeholder="Zoek iets"/>
+        <Button Grid.Row="1" Grid.Column="1" Text="Search" Command="{Binding SearchCommand}"></Button>-->
 
-    <ContentPage.Padding>
-                                              <!-- links, boven, rechts, onder -->
-        <OnPlatform x:TypeArguments="Thickness" Android="10" />
+    <ContentPage.Padding>                                  
+        <OnPlatform x:TypeArguments="Thickness" Android="0"/>
     </ContentPage.Padding>
     
-    <Grid>
+    <Grid BackgroundColor="#663399" Padding="25">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
+        <!--<Grid.ColumnDefinitions>
             <ColumnDefinition Width="7*" />
             <ColumnDefinition Width="3*" />
-        </Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>-->
 
-        <SearchBar x:Name="searchBar" Grid.Row="0" Grid.ColumnSpan="2" Placeholder="Search" SearchCommand="{Binding PerformSearch}" 
-                   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
-        <!--<Entry Grid.Row="1" Grid.Column="0" Text="{Binding InputText, Mode=OneWayToSource}" Placeholder="Zoek iets"/>
-        <Button Grid.Row="1" Grid.Column="1" Text="Search" Command="{Binding SearchCommand}"></Button>-->
+        <yummy:PancakeView Grid.Row="0" Grid.ColumnSpan="2" Margin="0, 0, 0, 10" CornerRadius="10, 10, 0, 0">
+            <SearchBar x:Name="searchBar" BackgroundColor="#d599ff" Placeholder="Search" SearchCommand="{Binding PerformSearch}" 
+                       SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/> 
+        </yummy:PancakeView>
+
+        <yummy:PancakeView Grid.Row="2" Grid.ColumnSpan="2" CornerRadius="10, 10, 10, 10">
+            <StackLayout BackgroundColor="White" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <StackLayout>
+                    <!--image-->
+                    <Image Source="{Binding L_ImgPath}" Aspect="AspectFill" HeightRequest="350"/>
+                    <!--END image-->
+                </StackLayout>
+                
+                <StackLayout Padding="25">
+                    <!--title, ep, score-->
+                    <StackLayout Orientation="Horizontal" Margin="0, 0, 0, 25">
+                        <StackLayout Orientation="Vertical" HorizontalOptions="StartAndExpand">
+                            <Label FontAttributes="Bold" FontSize="Large" Text="{Binding L_Title}"/>
+                            <StackLayout Orientation="Horizontal">
+                                <Label FontSize="Caption" Text="{Binding L_Episodes}"/>
+                                <Label FontSize="Caption" Text="Episodes" />
+                            </StackLayout>
+                        </StackLayout>
+                        <StackLayout Orientation="Vertical" MinimumWidthRequest="100" HorizontalOptions="EndAndExpand">
+                            <Label Text="Score" HorizontalOptions="Center"/>
+                            <yummy:PancakeView BackgroundGradientStartPoint="0,0" BackgroundGradientEndPoint="1,0" Padding="10, 5, 10, 5" CornerRadius="20">
+                                <yummy:PancakeView.BackgroundGradientStops>
+                                    <yummy:GradientStopCollection>
+                                        <yummy:GradientStop Color="#d599ff" Offset="0" />
+                                        <yummy:GradientStop Color="#9d65d0" Offset="0.5" />
+                                        <yummy:GradientStop Color="#663399" Offset="1" />
+                                    </yummy:GradientStopCollection>
+                                </yummy:PancakeView.BackgroundGradientStops>
+                                <Label FontAttributes="Bold" TextColor="White" Text="{Binding L_Score}" HorizontalOptions="Center"/>
+                            </yummy:PancakeView>
+                        </StackLayout>
+                    </StackLayout>
+                    <!--END title, ep, score-->
+
+                    <StackLayout>
+                        <!--disc-->
+                        <Label FontFamily="" Text="{Binding L_Description}"/>
+                        <!--END disc-->
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+            
+            <!--<StackLayout BackgroundColor="White" Padding="10" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Label Text="Title:" />
+                    <Label Text="{Binding L_Title}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Label Text="Description:" />
+                    <Label Text="{Binding L_Description}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Label Text="Episodes:" />
+                    <Label Text="{Binding L_Episodes}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Label Text="Rated:" />
+                    <Label Text="{Binding L_Rated}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Label Text="Score:" />
+                    <Label Text="{Binding L_Score}" />
+                </StackLayout>
+                <StackLayout>
+                    <Image Source="{Binding L_ImgPath}" Aspect="AspectFit" WidthRequest="225" HeightRequest="319"/>
+                </StackLayout>
+            </StackLayout>-->
+        </yummy:PancakeView>
         
-        <StackLayout Grid.Row="2" Grid.ColumnSpan="2" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            <StackLayout BackgroundColor="Aqua" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                <Label Text="Title:" />
-                <Label Text="{Binding L_Title}" />
-            </StackLayout>
-            <StackLayout BackgroundColor="Aqua" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                <Label Text="Description:" />
-                <Label Text="{Binding L_Description}" />
-            </StackLayout>
-            <StackLayout BackgroundColor="Aqua" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                <Label Text="Episodes:" />
-                <Label Text="{Binding L_Episodes}" />
-            </StackLayout>
-            <StackLayout BackgroundColor="Aqua" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                <Label Text="Rated:" />
-                <Label Text="{Binding L_Rated}" />
-            </StackLayout>
-            <StackLayout BackgroundColor="Aqua" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                <Label Text="Score:" />
-                <Label Text="{Binding L_Score}" />
-            </StackLayout>
-            <StackLayout BackgroundColor="Aqua">
-                <Image Source="{Binding L_ImgPath}"/>
-            </StackLayout>
-        </StackLayout>
     </Grid>
   
 </ContentPage>
