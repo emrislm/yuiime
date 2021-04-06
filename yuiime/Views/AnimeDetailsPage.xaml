@@ -5,6 +5,8 @@
              xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="yuiime.Views.AnimeDetailsPage"
+             NavigationPage.HasNavigationBar="True"
+             NavigationPage.BarBackgroundColor="#663399"
              Title="{Binding Title}">
 
     <ContentPage.Padding>

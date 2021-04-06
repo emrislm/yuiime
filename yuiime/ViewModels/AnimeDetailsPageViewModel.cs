@@ -6,13 +6,16 @@ using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using yuiime.Models;
 
 namespace yuiime.ViewModels
 {
     public class AnimeDetailsPageViewModel : ViewModelBase
     {
         private Jikan jikan;
-        private string inputText, l_Title, l_Description, l_Episodes, l_Rated, l_Score, l_imgPath;
+        private string l_Title, l_Description, l_Episodes, l_Rated, l_Score, l_imgPath;
+
+        private AnimeFromModels anime;
 
         private IPageDialogService pageDialogService;
 
@@ -24,40 +27,21 @@ namespace yuiime.ViewModels
             this.pageDialogService = pageDialogService;
         }
 
-        //public ICommand PerformSearch => new Command<string>(async (string query) =>
-        //{
-        //    if (query != "")
-        //    {
-        //        AnimeSearchResult animeSearchResult = await jikan.SearchAnime(query);
-
-        //        L_Title = animeSearchResult.Results.First().Title;
-        //        L_Description = animeSearchResult.Results.First().Description;
-        //        L_Episodes = Convert.ToString(animeSearchResult.Results.First().Episodes);
-        //        L_Rated = animeSearchResult.Results.First().Rated;
-        //        L_Score = Convert.ToString(animeSearchResult.Results.First().Score);
-        //        L_ImgPath = animeSearchResult.Results.First().ImageURL;
-
-        //        Console.WriteLine(L_ImgPath);
-        //    }
-        //    else
-        //    {
-        //        await pageDialogService.DisplayAlertAsync("Oops", "Hmmm... Een leeg input?", "try again?");
-
-        //        L_Title = String.Empty;
-        //        L_Description = String.Empty;
-        //        L_Episodes = String.Empty;
-        //        L_Rated = String.Empty;
-        //        L_Score = String.Empty;
-        //        L_ImgPath = String.Empty;
-        //    }
-        //});
-
-
-        public string InputText
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            get { return inputText; }
-            set { SetProperty(ref inputText, value); }
+            if (parameters.ContainsKey("anime"))
+            {
+                anime = parameters.GetValue<AnimeFromModels>("anime");
+
+                L_Title = anime.L_Name;
+                L_Description = anime.L_Description;
+                L_Episodes = anime.L_Episodes;
+                L_Rated = anime.L_Rated;
+                L_Score = anime.L_Score;
+                L_ImgPath = anime.L_ImgUrl;
+            }
         }
+
         public string L_Title
         {
             get { return l_Title; }

@@ -51,6 +51,8 @@ namespace yuiime.ViewModels
                         tempAnime.L_Name = item.Title;
                         tempAnime.L_Score = Convert.ToString(item.Score);
                         tempAnime.L_Episodes = Convert.ToString(item.Episodes);
+                        tempAnime.L_Description = item.Description;
+                        tempAnime.L_Rated = item.Rated;
 
                         Animes.Add(tempAnime);
                     }
