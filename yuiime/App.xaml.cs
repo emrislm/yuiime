@@ -28,13 +28,12 @@ namespace yuiime
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
-            containerRegistry.RegisterForNavigation<MainMasterDetail, MainMasterDetailViewModel>();
-            containerRegistry.RegisterForNavigation<AboutPage, AboutPageViewModel>();
             containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>();
             containerRegistry.RegisterForNavigation<AnimePage, AnimePageViewModel>();
             containerRegistry.RegisterForNavigation<MangaPage, MangaPageViewModel>();
+            containerRegistry.RegisterForNavigation<AnimeDetailsPage, AnimeDetailsPageViewModel>();
+            containerRegistry.RegisterForNavigation<MangaDetailsPage, MangaDetailsPageViewModel>();
         }
     }
 }

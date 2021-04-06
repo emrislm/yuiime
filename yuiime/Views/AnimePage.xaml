@@ -2,12 +2,75 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:local="clr-namespace:yuiime.ViewModels"
+             xmlns:model="clr-namespace:yuiime.Models"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="yuiime.Views.AnimePage"
              Title="{Binding Title}">
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Label Text="Anime dinges" FontSize="Large" />
-    </StackLayout>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness" Android="0"/>
+    </ContentPage.Padding>
+
+    <Grid BackgroundColor="#663399" Padding="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="500" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <yummy:PancakeView Grid.Row="0" Grid.ColumnSpan="2" Margin="0, 0, 0, 10" CornerRadius="10">
+            <SearchBar x:Name="searchBar" BackgroundColor="#d599ff" Placeholder="Search" SearchCommand="{Binding PerformSearch}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
+        </yummy:PancakeView>
+
+        <RefreshView Grid.Row="1" Grid.ColumnSpan="2" x:DataType="local:AnimePageViewModel" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView ItemsSource="{Binding Animes}" SelectionMode="Single" SelectedItem="{Binding SelectedAnime}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout WidthRequest="245">
+                            <StackLayout Orientation="Vertical" Spacing="0" x:DataType="model:AnimeFromModels">
+                                <!--image-->
+                                <StackLayout HorizontalOptions="Center">
+                                    <yummy:PancakeView CornerRadius="20, 20, 10, 10" WidthRequest="225" HeightRequest="319">
+                                        <Image Source="{Binding L_ImgUrl}" Aspect="AspectFill"/>
+                                    </yummy:PancakeView>
+                                </StackLayout>
+                                <!--END image-->
+
+                                <!--info-->
+                                <StackLayout Padding="10" WidthRequest="225" Orientation="Vertical">
+                                    <!--name-->
+                                    <Label TextColor="white" FontAttributes="Bold" FontSize="Subtitle" Text="{Binding L_Name}"/>
+                                    <!--END name-->
+
+                                    <!--score-->
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label TextColor="white" Text="Score" FontSize="Caption" VerticalOptions="Center"/>
+                                        <yummy:PancakeView BackgroundColor="#b97fed" Padding="7, 3, 7, 3" CornerRadius="10">
+                                            <Label FontAttributes="Bold" TextColor="White" FontSize="Caption" Text="{Binding L_Score}" VerticalOptions="Center"/>
+                                        </yummy:PancakeView>
+                                    </StackLayout>
+                                    <!--END score-->
+
+                                    <!--episodes-->
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label FontSize="Caption" TextColor="White" Text="{Binding L_Episodes}"/>
+                                        <Label FontSize="Caption" TextColor="White" Text="Episodes" />
+                                    </StackLayout>
+                                    <!--END episodes-->
+                                </StackLayout>
+                                <!--END info-->
+                            </StackLayout>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
 
 </ContentPage>

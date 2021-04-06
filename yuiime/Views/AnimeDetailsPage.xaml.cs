@@ -2,9 +2,9 @@
 
 namespace yuiime.Views
 {
-    public partial class MainMasterDetail : MasterDetailPage
+    public partial class AnimeDetailsPage : ContentPage
     {
-        public MainMasterDetail()
+        public AnimeDetailsPage()
         {
             InitializeComponent();
         }
