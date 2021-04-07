@@ -5,6 +5,8 @@ using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using yuiime.Models;
 
@@ -13,9 +15,12 @@ namespace yuiime.ViewModels
     public class AnimeDetailsPageViewModel : ViewModelBase
     {
         private Jikan jikan;
-        private string l_Title, l_Description, l_Episodes, l_Rated, l_Score, l_imgPath;
+        private string l_Title, l_Description, l_Episodes, l_Rated, l_Score, l_ImgPath, l_BigPicture;
+        private long l_Id;
 
         private AnimeFromModels anime;
+        private StaffFromModels tempStaff;
+        public ObservableCollection<StaffFromModels> AnimeStaff { get; }
 
         private IPageDialogService pageDialogService;
 
@@ -23,6 +28,8 @@ namespace yuiime.ViewModels
         {
             Title = "Anime";
             jikan = new Jikan(true);
+
+            AnimeStaff = new ObservableCollection<StaffFromModels>();
 
             this.pageDialogService = pageDialogService;
         }
@@ -33,12 +40,34 @@ namespace yuiime.ViewModels
             {
                 anime = parameters.GetValue<AnimeFromModels>("anime");
 
+                L_Id = anime.L_Id;
                 L_Title = anime.L_Name;
                 L_Description = anime.L_Description;
                 L_Episodes = anime.L_Episodes;
                 L_Rated = anime.L_Rated;
                 L_Score = anime.L_Score;
                 L_ImgPath = anime.L_ImgUrl;
+                L_BigPicture = "";
+
+            }  
+        }
+
+        public void AddStaff(long id)
+        {
+            AnimeCharactersStaff charactersStaff = jikan.GetAnimeCharactersStaff(id).Result;
+            if (charactersStaff != null)
+            {
+                foreach (var staffMember in charactersStaff.Staff)
+                {
+                    tempStaff = new StaffFromModels();
+                    tempStaff.L_StaffImg = "";
+                    tempStaff.L_StaffName = staffMember.Name;
+                    AnimeStaff.Add(tempStaff);
+                }
+            }
+            else
+            {
+                Debug.WriteLine("PIC IS NULLLLLLLLLLLL");
             }
         }
 
@@ -69,8 +98,18 @@ namespace yuiime.ViewModels
         }
         public string L_ImgPath
         {
-            get { return l_imgPath; }
-            set { SetProperty(ref l_imgPath, value); }
+            get { return l_ImgPath; }
+            set { SetProperty(ref l_ImgPath, value); }
+        }
+        public string L_BigPicture
+        {
+            get { return l_BigPicture; }
+            set { SetProperty(ref l_BigPicture, value); }
+        }
+        public long L_Id
+        {
+            get { return l_Id; }
+            set { SetProperty(ref l_Id, value); }
         }
     }
 }

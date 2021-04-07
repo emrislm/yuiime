@@ -19,7 +19,6 @@ namespace yuiime
         {
             InitializeComponent();
 
-            //await NavigationService.NavigateAsync("/MainMasterDetail/NavigationPage/AboutPage");
             await NavigationService.NavigateAsync("NavigationPage/MainTabbedPage?createTab=TestPage&createTab=AnimePage&createTab=MangaPage");
         }
 

@@ -4,7 +4,7 @@
             xmlns:prism="http://prismlibrary.com"
             prism:ViewModelLocator.AutowireViewModel="True"
             x:Class="yuiime.Views.MainTabbedPage"
-            BarBackgroundColor="#663399"
+            BarBackgroundColor="#373b69"
             NavigationPage.HasNavigationBar="False">
   
 </TabbedPage>

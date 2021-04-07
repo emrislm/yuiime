@@ -2,38 +2,34 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:local="clr-namespace:yuiime.ViewModels"
+             xmlns:model="clr-namespace:yuiime.Models"
              x:Class="yuiime.Views.AnimeDetailsPage"
-             NavigationPage.HasNavigationBar="True"
-             NavigationPage.BarBackgroundColor="#663399"
-             Title="{Binding Title}">
+             NavigationPage.HasNavigationBar="False">
 
-    <ContentPage.Padding>
-        <OnPlatform x:TypeArguments="Thickness" Android="0"/>
-    </ContentPage.Padding>
-
-    <Grid BackgroundColor="#663399" Padding="25">
+    <Grid RowSpacing="0" BackgroundColor="#182841">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <yummy:PancakeView Grid.Row="2" Grid.ColumnSpan="2" CornerRadius="10, 10, 10, 10">
-            <StackLayout BackgroundColor="White" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                <StackLayout>
-                    <!--image-->
-                    <Image Source="{Binding L_ImgPath}" Aspect="AspectFill" HeightRequest="350"/>
-                    <!--END image-->
-                </StackLayout>
+        <StackLayout Grid.Row="0" Grid.ColumnSpan="2" Orientation="Vertical">
+            <!--image-->
+            <Image Source="{Binding L_ImgPath}" Aspect="AspectFill" HeightRequest="350"/>
+            <!--END image-->
+        </StackLayout>
 
-                <StackLayout Padding="25">
+        <yummy:PancakeView Grid.Row="1" Grid.ColumnSpan="2" HorizontalOptions="CenterAndExpand" CornerRadius="0,0,10,10">
+            <StackLayout BackgroundColor="White" Orientation="Vertical">
+                <StackLayout Padding="25" Orientation="Vertical">
                     <!--title, ep, score-->
                     <StackLayout Orientation="Horizontal" Margin="0, 0, 0, 25">
                         <StackLayout Orientation="Vertical" HorizontalOptions="StartAndExpand">
-                            <Label FontAttributes="Bold" FontSize="Large" Text="{Binding L_Title}"/>
+                            <Label FontAttributes="Bold" FontSize="Title"  Text="{Binding L_Title}"/>
                             <StackLayout Orientation="Horizontal">
                                 <Label FontSize="Caption" Text="{Binding L_Episodes}"/>
                                 <Label FontSize="Caption" Text="Episodes" />
@@ -41,28 +37,42 @@
                         </StackLayout>
                         <StackLayout Orientation="Vertical" MinimumWidthRequest="100" HorizontalOptions="EndAndExpand">
                             <Label Text="Score" HorizontalOptions="Center"/>
-                            <yummy:PancakeView BackgroundGradientStartPoint="0,0" BackgroundGradientEndPoint="1,0" Padding="10, 5, 10, 5" CornerRadius="20">
-                                <yummy:PancakeView.BackgroundGradientStops>
-                                    <yummy:GradientStopCollection>
-                                        <yummy:GradientStop Color="#d599ff" Offset="0" />
-                                        <yummy:GradientStop Color="#9d65d0" Offset="0.5" />
-                                        <yummy:GradientStop Color="#663399" Offset="1" />
-                                    </yummy:GradientStopCollection>
-                                </yummy:PancakeView.BackgroundGradientStops>
+                            <yummy:PancakeView BackgroundColor="#708ed2" Padding="10, 5, 10, 5" CornerRadius="20">
                                 <Label FontAttributes="Bold" TextColor="White" Text="{Binding L_Score}" HorizontalOptions="Center"/>
                             </yummy:PancakeView>
                         </StackLayout>
                     </StackLayout>
                     <!--END title, ep, score-->
 
-                    <StackLayout>
+                    <StackLayout Margin="0, 0, 0, 25">
                         <!--disc-->
                         <Label Text="{Binding L_Description}"/>
                         <!--END disc-->
                     </StackLayout>
+
+                    <StackLayout Orientation="Vertical">
+                        <!--cast-->
+                        <!--<Label FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#708ed2" Text="Cast" HorizontalOptions="StartAndExpand"/>
+                        <CollectionView BackgroundColor="#E8F4FC" x:DataType="model:StaffFromModels" ItemsSource="{Binding AnimeStaff}" SelectionMode="Single" VerticalOptions="Fill">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Horizontal" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout Orientation="Vertical">
+                                        <yummy:PancakeView CornerRadius="50">
+                                            <Image Source="{Binding L_StaffImg}" />
+                                        </yummy:PancakeView>
+                                        <Label Text="{Binding L_StaffName}"/>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>-->
+                        <!--cast-->
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
-        </yummy:PancakeView>
+        </yummy:PancakeView>        
 
     </Grid>
 </ContentPage>
