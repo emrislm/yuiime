@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>yuiime.Droid</RootNamespace>
+    <RootNamespace>yuiime</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
