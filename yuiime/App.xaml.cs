@@ -19,7 +19,7 @@ namespace yuiime
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/MainTabbedPage?createTab=TestPage&createTab=AnimePage&createTab=MangaPage");
+            await NavigationService.NavigateAsync("NavigationPage/MainTabbedPage?createTab=AnimePage&createTab=MangaPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

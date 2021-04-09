@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using Xamarin.Essentials;
 using yuiime.Models;
 
 namespace yuiime.ViewModels
@@ -17,12 +18,14 @@ namespace yuiime.ViewModels
         private Jikan jikan;
         private string l_Title, l_Description, l_Episodes, l_Rated, l_Score, l_ImgPath, l_BigPicture;
         private long l_Id;
+        private int l_Completed, l_Dropped, l_OnHold, l_PlanToWatch, l_Watching, l_Total;
 
         private AnimeFromModels anime;
         private StaffFromModels tempStaff;
-        public ObservableCollection<StaffFromModels> AnimeStaff { get; }
+        private NewsFromModels tempNews;
 
-        private IPageDialogService pageDialogService;
+        public ObservableCollection<StaffFromModels> AnimeStaff { get; }
+        public ObservableCollection<NewsFromModels> AnimeNews { get; }
 
         public AnimeDetailsPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService) : base(navigationService)
         {
@@ -30,47 +33,74 @@ namespace yuiime.ViewModels
             jikan = new Jikan(true);
 
             AnimeStaff = new ObservableCollection<StaffFromModels>();
-
-            this.pageDialogService = pageDialogService;
+            AnimeNews = new ObservableCollection<NewsFromModels>();
         }
-
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("anime"))
             {
                 anime = parameters.GetValue<AnimeFromModels>("anime");
 
-                L_Id = anime.L_Id;
-                L_Title = anime.L_Name;
-                L_Description = anime.L_Description;
-                L_Episodes = anime.L_Episodes;
-                L_Rated = anime.L_Rated;
-                L_Score = anime.L_Score;
-                L_ImgPath = anime.L_ImgUrl;
-                L_BigPicture = "";
-
+                GetAnime(anime);              
+                GetStaff(l_Id);
+                GetStats(l_Id);
+                GetNews(l_Id);
             }  
         }
 
-        public void AddStaff(long id)
+        // --------------FUNCTIONS--------------
+        public void GetAnime(AnimeFromModels anime)
         {
-            AnimeCharactersStaff charactersStaff = jikan.GetAnimeCharactersStaff(id).Result;
-            if (charactersStaff != null)
+            L_Id = anime.L_Id;
+            L_Title = anime.L_Name;
+            L_Description = anime.L_Description;
+            L_Episodes = anime.L_Episodes;
+            L_Rated = anime.L_Rated;
+            L_Score = anime.L_Score;
+            L_ImgPath = anime.L_ImgUrl;
+            L_BigPicture = "";
+        }
+        public async void GetStaff(long id)
+        {
+            AnimeCharactersStaff charactersStaff = await jikan.GetAnimeCharactersStaff(id);
+            foreach (StaffPositionEntry staffMember in charactersStaff.Staff)
             {
-                foreach (var staffMember in charactersStaff.Staff)
-                {
-                    tempStaff = new StaffFromModels();
-                    tempStaff.L_StaffImg = "";
-                    tempStaff.L_StaffName = staffMember.Name;
-                    AnimeStaff.Add(tempStaff);
-                }
-            }
-            else
-            {
-                Debug.WriteLine("PIC IS NULLLLLLLLLLLL");
+                tempStaff = new StaffFromModels();
+                tempStaff.L_StaffImg = staffMember.ImageURL;
+                tempStaff.L_StaffName = staffMember.Name;
+                tempStaff.L_StaffRole = staffMember.Role.First();
+
+                AnimeStaff.Add(tempStaff);
             }
         }
+        public async void GetStats(long id)
+        {
+            AnimeStats stats = await jikan.GetAnimeStatistics(id);
+            L_Completed = (int)stats.Completed;
+            L_Dropped = (int)stats.Dropped;
+            L_OnHold = (int)stats.OnHold;
+            L_PlanToWatch = (int)stats.PlanToWatch;
+            L_Watching = (int)stats.Watching;
+            L_Total = l_Completed + l_Dropped + l_OnHold + l_PlanToWatch + l_Watching;
+        }
+        public async void GetNews(long id)
+        {
+            AnimeNews news = await jikan.GetAnimeNews(id);
+            foreach (News newsEntry in news.News)
+            {
+                tempNews = new NewsFromModels();
+                tempNews.L_ImgUrl = newsEntry.ImageURL;
+                tempNews.L_Title = newsEntry.Title;
+                tempNews.L_Author = newsEntry.Author;
+                tempNews.L_Date = (DateTime)newsEntry.Date;
 
+                AnimeNews.Add(tempNews);
+            }
+        }
+        // --------------FUNCTIONS--------------
+
+        // --------------PROPERTIES--------------
+        // anime
         public string L_Title
         {
             get { return l_Title; }
@@ -111,5 +141,39 @@ namespace yuiime.ViewModels
             get { return l_Id; }
             set { SetProperty(ref l_Id, value); }
         }
+        // END anime
+        // stats
+        public int L_Completed
+        {
+            get { return l_Completed; }
+            set { SetProperty(ref l_Completed, value); }
+        }
+        public int L_Dropped
+        {
+            get { return l_Dropped; }
+            set { SetProperty(ref l_Dropped, value); }
+        }
+        public int L_OnHold
+        {
+            get { return l_OnHold; }
+            set { SetProperty(ref l_OnHold, value); }
+        }
+        public int L_PlanToWatch
+        {
+            get { return l_PlanToWatch; }
+            set { SetProperty(ref l_PlanToWatch, value); }
+        }
+        public int L_Watching
+        {
+            get { return l_Watching; }
+            set { SetProperty(ref l_Watching, value); }
+        }
+        public int L_Total
+        {
+            get { return l_Total; }
+            set { SetProperty(ref l_Total, value); }
+        }
+        // END stats
+        // --------------PROPERTIES--------------
     }
 }

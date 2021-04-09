@@ -4,7 +4,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="yuiime.Views.MangaPage"
-             IconImageSource="baseline_library_books_white_24.png">
+             Title="Manga">
 
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
         <Label Text="Manga dinges" FontSize="Large" />
