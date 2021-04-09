@@ -78,7 +78,7 @@
                     </CollectionView>
                 </RefreshView>
                 <Label Margin="0, 0, 0, 10" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding SeasonLabel}" />
-                <RefreshView x:DataType="local:AnimePageViewModel" IsRefreshing="{Binding IsBusy2, Mode=TwoWay}">
+                <RefreshView x:DataType="local:AnimePageViewModel" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
                     <CollectionView ItemsSource="{Binding LatestAnimes}" SelectionMode="Single" HeightRequest="400" SelectedItem="{Binding SelectedSeasonalAnime}">
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Horizontal" />
@@ -100,6 +100,43 @@
                                             <!--name-->
                                             <Label HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" TextColor="white" FontAttributes="Bold" FontSize="Subtitle"  Text="{Binding L_Name}"/>
                                             <!--END name-->
+                                        </StackLayout>
+                                        <!--END info-->
+                                    </StackLayout>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+                <Label Margin="0, 10, 0, 10" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding TopAnimeLabel}" />
+                <RefreshView x:DataType="local:AnimePageViewModel" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+                    <CollectionView ItemsSource="{Binding TopAnimes}" SelectionMode="Single" HeightRequest="400" SelectedItem="{Binding SelectedTopAnime}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout WidthRequest="245">
+                                    <StackLayout Orientation="Vertical" Margin="0, 0, 20, 0" BackgroundColor="#373b69" Spacing="0" x:DataType="model:AnimeFromModels">
+                                        <!--image-->
+                                        <StackLayout HorizontalOptions="Center">
+                                            <yummy:PancakeView WidthRequest="225" HeightRequest="319">
+                                                <Image Source="{Binding L_ImgUrl}" Aspect="AspectFill"/>
+                                            </yummy:PancakeView>
+                                        </StackLayout>
+                                        <!--END image-->
+
+                                        <!--info-->
+                                        <StackLayout Padding="10, 15, 10, 15" WidthRequest="225" Orientation="Horizontal">
+                                            <!--name-->
+                                            <Label HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" TextColor="white" FontAttributes="Bold" FontSize="Subtitle" Text="{Binding L_Name}"/>
+                                            <!--END name-->
+
+                                            <!--score-->
+                                            <yummy:PancakeView HorizontalOptions="EndAndExpand" MinimumWidthRequest="100" BackgroundColor="#182841" Padding="10, 5, 10, 5" CornerRadius="0">
+                                                <Label FontAttributes="Bold" TextColor="{Binding L_ScoreTextColor}" FontSize="Caption" Text="{Binding L_Score}" VerticalOptions="CenterAndExpand"/>
+                                            </yummy:PancakeView>
+                                            <!--END score-->
                                         </StackLayout>
                                         <!--END info-->
                                     </StackLayout>

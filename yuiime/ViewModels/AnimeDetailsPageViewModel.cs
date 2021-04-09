@@ -16,7 +16,7 @@ namespace yuiime.ViewModels
     public class AnimeDetailsPageViewModel : ViewModelBase
     {
         private Jikan jikan;
-        private string l_Title, l_Description, l_Episodes, l_Rated, l_Score, l_ImgPath, l_BigPicture;
+        private string l_Title, l_Description, l_Episodes, l_Rated, l_Score, l_ImgPath;
         private long l_Id;
         private int l_Completed, l_Dropped, l_OnHold, l_PlanToWatch, l_Watching, l_Total;
 
@@ -49,7 +49,7 @@ namespace yuiime.ViewModels
         }
 
         // --------------FUNCTIONS--------------
-        public void GetAnime(AnimeFromModels anime)
+        public async void GetAnime(AnimeFromModels anime)
         {
             L_Id = anime.L_Id;
             L_Title = anime.L_Name;
@@ -57,8 +57,9 @@ namespace yuiime.ViewModels
             L_Episodes = anime.L_Episodes;
             L_Rated = anime.L_Rated;
             L_Score = anime.L_Score;
-            L_ImgPath = anime.L_ImgUrl;
-            L_BigPicture = "";
+
+            AnimePictures pictures = await jikan.GetAnimePictures(l_Id);
+            L_ImgPath = pictures.Pictures.First().Large;
         }
         public async void GetStaff(long id)
         {
@@ -130,11 +131,6 @@ namespace yuiime.ViewModels
         {
             get { return l_ImgPath; }
             set { SetProperty(ref l_ImgPath, value); }
-        }
-        public string L_BigPicture
-        {
-            get { return l_BigPicture; }
-            set { SetProperty(ref l_BigPicture, value); }
         }
         public long L_Id
         {

@@ -20,10 +20,11 @@ namespace yuiime.ViewModels
     public class AnimePageViewModel : ViewModelBase
     {
         private Jikan jikan;
+
+        private AnimeFromModels tempAnime;
         public ObservableCollection<AnimeFromModels> Animes { get; }
         public ObservableCollection<AnimeFromModels> LatestAnimes { get; }
-        private AnimeFromModels tempAnime;
-        private AnimeFromModels tempSeasonalAnime;
+        public ObservableCollection<AnimeFromModels> TopAnimes { get; }
 
         private IPageDialogService pageDialogService;
 
@@ -34,6 +35,7 @@ namespace yuiime.ViewModels
 
             Animes = new ObservableCollection<AnimeFromModels>();
             LatestAnimes = new ObservableCollection<AnimeFromModels>();
+            TopAnimes = new ObservableCollection<AnimeFromModels>();
 
             this.pageDialogService = pageDialogService;
         }
@@ -41,7 +43,6 @@ namespace yuiime.ViewModels
         public void OnAppearing()
         {
             IsBusy = false;
-            IsBusy2 = false;
 
             SelectedAnime = null;
             SelectedSeasonalAnime = null;
@@ -52,42 +53,86 @@ namespace yuiime.ViewModels
             Season season = await jikan.GetSeason();
             foreach (var seasonEntry in season.SeasonEntries)
             {
-                tempSeasonalAnime = new AnimeFromModels();
-                tempSeasonalAnime.L_Id = seasonEntry.MalId;
-                tempSeasonalAnime.L_ImgUrl = seasonEntry.ImageURL;
-                tempSeasonalAnime.L_Name = seasonEntry.Title;
+                tempAnime = new AnimeFromModels();
+                tempAnime.L_Id = seasonEntry.MalId;
+                tempAnime.L_ImgUrl = seasonEntry.ImageURL;
+                tempAnime.L_Name = seasonEntry.Title;
                 if (seasonEntry.Score == null)
                 {
-                    tempSeasonalAnime.L_Score = "--";
+                    tempAnime.L_Score = "--";
                 }
                 else
                 {
-                    tempSeasonalAnime.L_Score = Convert.ToString(seasonEntry.Score);
+                    tempAnime.L_Score = Convert.ToString(seasonEntry.Score);
                 }
                 if (seasonEntry.Episodes == null)
                 {
-                    tempSeasonalAnime.L_Episodes = "--";
+                    tempAnime.L_Episodes = "--";
                 }
-                tempSeasonalAnime.L_Description = seasonEntry.Synopsis;
-                tempSeasonalAnime.L_Rated = seasonEntry.Type;
-                tempSeasonalAnime.L_BigPicture = "";
+                tempAnime.L_Description = seasonEntry.Synopsis;
+                tempAnime.L_Rated = seasonEntry.Type;
 
-                LatestAnimes.Add(tempSeasonalAnime);
+                LatestAnimes.Add(tempAnime);
 
                 if (seasonEntry.Score >= 8)
                 {
-                    tempSeasonalAnime.L_ScoreTextColor = "LawnGreen";
+                    tempAnime.L_ScoreTextColor = "LawnGreen";
                 }
                 else if (seasonEntry.Score >= 5)
                 {
-                    tempSeasonalAnime.L_ScoreTextColor = "Orange";
+                    tempAnime.L_ScoreTextColor = "Orange";
                 }
                 else
                 {
-                    tempSeasonalAnime.L_ScoreTextColor = "Red";
+                    tempAnime.L_ScoreTextColor = "Red";
                 }
             }
             SeasonLabel = "Latest";
+        }
+        private async void TopAnimeInit()
+        {
+            AnimeTop topAnimeList = await jikan.GetAnimeTop();
+            foreach (var listEntry in topAnimeList.Top)
+            {
+                tempAnime = new AnimeFromModels();
+                tempAnime.L_Id = listEntry.MalId;
+                tempAnime.L_ImgUrl = listEntry.ImageURL;
+                tempAnime.L_Name = listEntry.Title;
+                if (listEntry.Score == null)
+                {
+                    tempAnime.L_Score = "No";
+                }
+                else
+                {
+                    tempAnime.L_Score = Convert.ToString(listEntry.Score);
+                }
+                if (listEntry.Episodes == null)
+                {
+                    tempAnime.L_Episodes = "No";
+                }
+                else
+                {
+                    tempAnime.L_Episodes = Convert.ToString(listEntry.Episodes);
+                }
+                tempAnime.L_Description = "No discription :/";
+                tempAnime.L_Rated = "No Rating :/";
+
+                TopAnimes.Add(tempAnime);
+
+                if (listEntry.Score >= 8)
+                {
+                    tempAnime.L_ScoreTextColor = "LawnGreen";
+                }
+                else if (listEntry.Score >= 5)
+                {
+                    tempAnime.L_ScoreTextColor = "Orange";
+                }
+                else
+                {
+                    tempAnime.L_ScoreTextColor = "Red";
+                }
+            }
+            TopAnimeLabel = "Best of the Best";
         }
 
         public ICommand PerformSearch => new Command<string>(async (string query) =>
@@ -95,7 +140,6 @@ namespace yuiime.ViewModels
             if (query != "")
             {
                 IsBusy = true;
-                IsBusy2 = true;
 
                 try
                 {
@@ -106,13 +150,12 @@ namespace yuiime.ViewModels
                     {
                         tempAnime = new AnimeFromModels();
                         tempAnime.L_Id = item.MalId;
-                        tempAnime.L_ImgUrl = item.ImageURL;
+                        tempAnime.L_ImgUrl = item.ImageURL;                        
                         tempAnime.L_Name = item.Title;
                         tempAnime.L_Score = Convert.ToString(item.Score);
                         tempAnime.L_Episodes = Convert.ToString(item.Episodes);
                         tempAnime.L_Description = item.Description;
                         tempAnime.L_Rated = item.Rated;
-                        tempAnime.L_BigPicture = "";
 
                         Animes.Add(tempAnime);
 
@@ -132,6 +175,7 @@ namespace yuiime.ViewModels
                     ResultsLabel = "Results";
 
                     LatestAnimesInit();
+                    TopAnimeInit();
                 }
                 catch (Exception ex)
                 {
@@ -140,7 +184,6 @@ namespace yuiime.ViewModels
                 finally
                 {
                     IsBusy = false;
-                    IsBusy2 = false;
                 }
             }
             else
@@ -162,6 +205,12 @@ namespace yuiime.ViewModels
             await NavigationService.NavigateAsync(nameof(AnimeDetailsPage), p);
         }
 
+        private AnimeFromModels selectedTopAnime;
+        public AnimeFromModels SelectedTopAnime
+        {
+            get { return selectedTopAnime; }
+            set { SetProperty(ref selectedTopAnime, value); OnAnimeSelected(value); }
+        }
         private AnimeFromModels selectedAnime;
         public AnimeFromModels SelectedAnime
         {
@@ -180,12 +229,6 @@ namespace yuiime.ViewModels
             get { return isBusy; }
             set { SetProperty(ref isBusy, value); }
         }
-        private bool isBusy2;
-        public bool IsBusy2
-        {
-            get { return isBusy2; }
-            set { SetProperty(ref isBusy2, value); }
-        }
 
         private string resultsLabel;
         public string ResultsLabel
@@ -198,6 +241,12 @@ namespace yuiime.ViewModels
         {
             get { return seasonLabel; }
             set { SetProperty(ref seasonLabel, value); }
+        }
+        private string topAnimeLabel;
+        public string TopAnimeLabel
+        {
+            get { return topAnimeLabel; }
+            set { SetProperty(ref topAnimeLabel, value); }
         }
     }
 }
