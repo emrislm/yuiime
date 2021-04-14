@@ -12,90 +12,118 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using yuiime.Views;
 using yuiime.Models;
+using yuiime.Repo;
 
 namespace yuiime.ViewModels
 {
     public class TestPageViewModel : ViewModelBase
     {
-        private Jikan jikan;
-        public ObservableCollection<AnimeFromModels> Animes { get; }
-        private AnimeFromModels tempAnime;
+        private string username_UP, password_UP, confirmpassword_UP, username_IN, password_IN;
 
-        private IPageDialogService pageDialogService;
-
-        public TestPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService) :base(navigationService)
+        private Users tempUser;
+        private IUserRepo<Users> userRepo;
+        public TestPageViewModel(INavigationService navigationService, IUserRepo<Users> userRepo) :base(navigationService)
         {
-            Title = "Test Page";
-            jikan = new Jikan(true);
-
-            Animes = new ObservableCollection<AnimeFromModels>();
-
-            this.pageDialogService = pageDialogService;
+            this.userRepo = userRepo;
         }
 
-        public ICommand PerformSearch => new Command<string>(async (string query) =>
+        public Command SignInCommand
         {
-            if (query != "")
+            get
             {
-                IsBusy = true;
-
-                try
+                return new Command(() =>
                 {
-                    Animes.Clear();
-
-                    AnimeSearchResult animeSearchResult = await jikan.SearchAnime(query, 1);
-                    foreach (var item in animeSearchResult.Results)
-                    {
-                        tempAnime = new AnimeFromModels();
-                        tempAnime.L_ImgUrl = item.ImageURL;
-                        tempAnime.L_Name = item.Title;
-                        tempAnime.L_Score = Convert.ToString(item.Score);
-                        tempAnime.L_Episodes = Convert.ToString(item.Episodes);
-                        tempAnime.L_Description = item.Description;
-                        tempAnime.L_Rated = item.Rated;
-
-                        Animes.Add(tempAnime);
-                    }
-                }
-                catch (Exception ex)
+                    SignIn();
+                });
+            }
+        }
+        public Command SignUpCommand
+        {
+            get
+            {
+                return new Command(() =>
                 {
-                    Debug.WriteLine(ex);
-                }
-                finally
-                {
-                    IsBusy = false;
-                }
+                    if (Password_UP == ConfirmPassword_UP)
+                        SignUp();
+                    else
+                        App.Current.MainPage.DisplayAlert("", "Password must be same as above!", "OK");
+                });
+            }
+        }
+        private async void SignIn()
+        {
+            if (string.IsNullOrEmpty(Username_IN) || string.IsNullOrEmpty(Password_IN))
+            {
+                await App.Current.MainPage.DisplayAlert("Empty Value(s)", "Please enter Email and Password", "OK");
             }
             else
             {
-                await pageDialogService.DisplayAlertAsync("Oops", "Hmmm... Een leeg input?", "try again?");
-            }
-        });
+                tempUser = new Users { Username = Username_IN, Password = Password_IN };
 
-        private async void OnAnimeSelected(AnimeFromModels anime)
+                var user = await userRepo.GetUserAsync(username_IN);
+                if (user != null)
+                    if (Username_IN == user.Username && Password_IN == user.Password)
+                    {
+                        await App.Current.MainPage.DisplayAlert("Success!", "", "Ok");
+                        await NavigationService.NavigateAsync("NavigationPage/MainTabbedPage?createTab=AnimePage&createTab=MangaPage");
+                    }
+                    else
+                    {
+                        await App.Current.MainPage.DisplayAlert("Login Fail", "Please enter correct Username and Password", "OK");
+                    }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Login Fail", "User not found", "OK");
+                }
+            }
+        }
+        private async void SignUp()
         {
-            if (anime == null)
+            if (string.IsNullOrEmpty(Username_UP) || string.IsNullOrEmpty(Password_UP))
             {
-                return;
+                await App.Current.MainPage.DisplayAlert("Empty Value(s)", "Please enter Email and Password", "OK");
             }
+            else
+            {
+                tempUser = new Users { Id = Guid.NewGuid().ToString(), Username = Username_UP, Password = Password_UP };
 
-            var p = new NavigationParameters();
-            p.Add("anime", anime);
-
-            await NavigationService.NavigateAsync(nameof(AnimeDetailsPage), p);
+                var user = await userRepo.AddUserAsync(tempUser);
+                if (user)
+                {
+                    await App.Current.MainPage.DisplayAlert("Success!", "", "Ok");
+                    await NavigationService.NavigateAsync("NavigationPage/MainTabbedPage?createTab=AnimePage&createTab=MangaPage");
+                }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Error", "Signup Fail", "OK");
+                }
+            }
         }
 
-        private AnimeFromModels selectedAnime;
-        public AnimeFromModels SelectedAnime
+        public string Username_IN
         {
-            get { return selectedAnime; }
-            set { SetProperty(ref selectedAnime, value); OnAnimeSelected(value); }
+            get { return username_IN; }
+            set { SetProperty(ref username_IN, value); }
         }
-        private bool isBusy;
-        public bool IsBusy
+        public string Password_IN
         {
-            get { return isBusy; }
-            set { SetProperty(ref isBusy, value); }
+            get { return password_IN; }
+            set { SetProperty(ref password_IN, value); }
+        }
+        public string Username_UP
+        {
+            get { return username_UP; }
+            set { SetProperty(ref username_UP, value); }
+        }
+        public string Password_UP
+        {
+            get { return password_UP; }
+            set { SetProperty(ref password_UP, value); }
+        }
+        public string ConfirmPassword_UP
+        {
+            get { return confirmpassword_UP; }
+            set { SetProperty(ref confirmpassword_UP, value); }
         }
     }
 }

@@ -13,5 +13,6 @@ namespace yuiime.ViewModels
         {
             Title = "Main tab";
         }
+
     }
 }

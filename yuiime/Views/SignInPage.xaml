@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com" 
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="yuiime.Views.SignInPage"
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid BackgroundColor="#182841" Padding="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label TextColor="#82cfdf" Grid.Row="0" HorizontalOptions="Center" Margin="0, 0, 0, 20" FontSize="Title" Text="Sign In" />
+        <StackLayout Grid.Row="1">
+            <Label TextColor="#82cfdf" Text="Username" />
+            <yummy:PancakeView Border="{yummy:BorderMarkup Color=#3E558B, Thickness='3'}" Margin="0, 0, 0, 10" CornerRadius="0">
+                <Entry PlaceholderColor="White" TextColor="White" BackgroundColor="#3E558B" Text="{Binding Username}" />
+            </yummy:PancakeView>
+        </StackLayout>
+        <StackLayout Grid.Row="2">
+            <Label TextColor="#82cfdf" Grid.Row="0" Grid.ColumnSpan="2" Text="Password" />
+            <yummy:PancakeView Border="{yummy:BorderMarkup Color=#3E558B, Thickness='3'}" Margin="0, 0, 0, 20" CornerRadius="0">
+                <Entry PlaceholderColor="White" TextColor="White" BackgroundColor="#3E558B" IsPassword="True" Text="{Binding Password}" />
+            </yummy:PancakeView>
+        </StackLayout>
+        <Button Grid.Row="3" BackgroundColor="#82cfdf" TextColor="#3E558B" Text="Sign In" Command="{Binding SignInCommand}" HorizontalOptions="FillAndExpand"/>
+
+        <StackLayout Grid.Row="4" Margin="0, 25, 0, 0" Spacing="0" WidthRequest="200" VerticalOptions="End" Orientation="Horizontal">
+            <Label TextColor="#82cfdf" FontSize="Subtitle" Text="Don't have an account?" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"/>
+            <Button BackgroundColor="#82cfdf" TextColor="#3E558B" Text="Sign Up" Command="{Binding GoToSignUpCommand}" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"/>
+        </StackLayout>
+
+    </Grid>
+</ContentPage>

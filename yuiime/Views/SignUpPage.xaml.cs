@@ -2,9 +2,9 @@
 
 namespace yuiime.Views
 {
-    public partial class MainTabbedPage : TabbedPage
+    public partial class SignUpPage : ContentPage
     {
-        public MainTabbedPage()
+        public SignUpPage()
         {
             NavigationPage.SetHasNavigationBar(this, false);
             NavigationPage.SetHasBackButton(this, false);

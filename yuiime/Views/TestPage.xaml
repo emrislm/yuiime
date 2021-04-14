@@ -7,88 +7,65 @@
              xmlns:local="clr-namespace:yuiime.ViewModels"
              xmlns:model="clr-namespace:yuiime.Models"
              x:Class="yuiime.Views.TestPage"
-             Title="{Binding Title}">
+             NavigationPage.HasNavigationBar="False">
 
-    <ContentPage.Resources>
-        <Style TargetType="StackLayout">
-            <Setter Property="VisualStateManager.VisualStateGroups">
-                <VisualStateGroupList>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal" />
-                        <VisualState x:Name="Selected">
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor"
-                                        Value="Transparent" />
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateGroupList>
-            </Setter>
-        </Style>
-    </ContentPage.Resources>
-
-    <ContentPage.Padding>                                  
-        <OnPlatform x:TypeArguments="Thickness" Android="0"/>
-    </ContentPage.Padding>
-    
-    <Grid BackgroundColor="#663399" Padding="25">
+    <Grid BackgroundColor="#182841" Padding="25">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="500" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-        <yummy:PancakeView Grid.Row="0" Grid.ColumnSpan="2" Margin="0, 0, 0, 10" CornerRadius="10">
-            <SearchBar x:Name="searchBar" BackgroundColor="#d599ff" Placeholder="Search" SearchCommand="{Binding PerformSearch}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
-        </yummy:PancakeView>
+        <Label TextColor="#82cfdf" Grid.Row="0" Grid.ColumnSpan="2" HorizontalOptions="Center" FontSize="Title" Text="Sign In" />
+        <StackLayout Grid.Row="1" Grid.ColumnSpan="2">
+            <Label TextColor="#82cfdf" Text="Username" />
+            <yummy:PancakeView Border="{yummy:BorderMarkup Color=#3E558B, Thickness='3'}" Margin="0, 0, 0, 10" CornerRadius="0">
+                <Entry PlaceholderColor="White" TextColor="White" BackgroundColor="#3E558B" Placeholder="Enter your username" Text="{Binding Username_IN}" />
+            </yummy:PancakeView>
+        </StackLayout>
+        <StackLayout Grid.Row="2" Grid.ColumnSpan="2">
+            <Label TextColor="#82cfdf" Grid.Row="0" Grid.ColumnSpan="2" Text="Password" />
+            <yummy:PancakeView Border="{yummy:BorderMarkup Color=#3E558B, Thickness='3'}" Margin="0, 0, 0, 20" CornerRadius="0">
+                <Entry PlaceholderColor="White" TextColor="White" BackgroundColor="#3E558B" Placeholder="Enter your Password" Text="{Binding Password_IN}" />
+            </yummy:PancakeView>
+        </StackLayout>
+        <Button Grid.Row="3" Grid.ColumnSpan="2" TextColor="#82cfdf" BackgroundColor="#3E558B" Text="Sign In" Command="{Binding SignInCommand}" HorizontalOptions="FillAndExpand"/>
 
-        <RefreshView Grid.Row="1" Grid.ColumnSpan="2" x:DataType="local:TestPageViewModel" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-            <CollectionView ItemsSource="{Binding Animes}" SelectionMode="Single" SelectedItem="{Binding SelectedAnime}">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Horizontal" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout WidthRequest="245">
-                            <StackLayout Orientation="Vertical" Spacing="0" x:DataType="model:AnimeFromModels">
-                                <!--image-->
-                                <StackLayout HorizontalOptions="Center">
-                                    <yummy:PancakeView CornerRadius="20, 20, 10, 10" WidthRequest="225" HeightRequest="319">
-                                        <Image Source="{Binding L_ImgUrl}" Aspect="AspectFill"/>
-                                    </yummy:PancakeView>
-                                </StackLayout>
-                                <!--END image-->
-                                    
-                                <!--info-->
-                                <StackLayout Padding="10" WidthRequest="225" Orientation="Vertical">
-                                    <!--name-->
-                                    <Label TextColor="white" FontAttributes="Bold" FontSize="Subtitle" Text="{Binding L_Name}"/>
-                                    <!--END name-->
-                                        
-                                    <!--score-->
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label TextColor="white" Text="Score" FontSize="Caption" VerticalOptions="Center"/>
-                                        <yummy:PancakeView BackgroundColor="#b97fed" Padding="7, 3, 7, 3" CornerRadius="10">
-                                            <Label FontAttributes="Bold" TextColor="White" FontSize="Caption" Text="{Binding L_Score}" VerticalOptions="Center"/>
-                                        </yummy:PancakeView>
-                                    </StackLayout>
-                                    <!--END score-->
-                                        
-                                    <!--episodes-->
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label FontSize="Caption" TextColor="White" Text="{Binding L_Episodes}"/>
-                                        <Label FontSize="Caption" TextColor="White" Text="Episodes" />
-                                    </StackLayout>
-                                    <!--END episodes-->
-                                </StackLayout>
-                                <!--END info-->
-                            </StackLayout>
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </RefreshView>
+        <Label TextColor="#82cfdf" Grid.Row="4" Grid.ColumnSpan="2" Margin="0, 75, 0, 0" HorizontalOptions="Center" FontSize="Subtitle" Text="Don't have an account?" />
+        
+        <Label TextColor="#82cfdf" Grid.Row="5" Margin="0, 25, 0, 0" Grid.ColumnSpan="2" HorizontalOptions="Center" FontSize="Title" Text="Sign Up" />
+        <StackLayout Grid.Row="6" Grid.ColumnSpan="2">
+            <Label TextColor="#82cfdf" Text="Username" />
+            <yummy:PancakeView Border="{yummy:BorderMarkup Color=#3E558B, Thickness='3'}" Margin="0, 0, 0, 10" CornerRadius="0">
+                <Entry PlaceholderColor="White" TextColor="White" BackgroundColor="#3E558B" Placeholder="Enter your username" Text="{Binding Username_UP}" />
+            </yummy:PancakeView>
+        </StackLayout>
+        <StackLayout Grid.Row="7" Grid.ColumnSpan="2">
+            <Label TextColor="#82cfdf" Grid.Row="0" Grid.ColumnSpan="2" Text="Password" />
+            <yummy:PancakeView Border="{yummy:BorderMarkup Color=#3E558B, Thickness='3'}" Margin="0, 0, 0, 10" CornerRadius="0">
+                <Entry PlaceholderColor="White" TextColor="White" BackgroundColor="#3E558B" Placeholder="Enter your Password" Text="{Binding Password_UP}" />
+            </yummy:PancakeView>
+        </StackLayout>
+        <StackLayout Grid.Row="8" Grid.ColumnSpan="2">
+            <Label TextColor="#82cfdf" Grid.Row="0" Grid.ColumnSpan="2" Text="Confirm Password" />
+            <yummy:PancakeView Border="{yummy:BorderMarkup Color=#3E558B, Thickness='3'}" Margin="0, 0, 0, 20" CornerRadius="0">
+                <Entry PlaceholderColor="White" TextColor="White" BackgroundColor="#3E558B" Placeholder="Confirm your Password" Text="{Binding ConfirmPassword_UP}" />
+            </yummy:PancakeView>
+        </StackLayout>
+        <Button Grid.Row="9" Grid.ColumnSpan="2" TextColor="#82cfdf" BackgroundColor="#3E558B" Text="Sign Up" Command="{Binding SignUpCommand}" HorizontalOptions="FillAndExpand"/>
     </Grid>
-  
+
 </ContentPage>

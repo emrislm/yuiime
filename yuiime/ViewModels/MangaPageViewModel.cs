@@ -19,6 +19,10 @@ namespace yuiime.ViewModels
 {
     public class MangaPageViewModel : ViewModelBase
     {
+        private string resultsLabel, topMangaLabel;
+        private MangaFromModels selectedTopManga, selectedManga;
+        private bool isBusy;
+
         private Jikan jikan;
 
         private MangaFromModels tempManga;
@@ -160,32 +164,26 @@ namespace yuiime.ViewModels
             await NavigationService.NavigateAsync(nameof(MangaDetailsPage), p);
         }
 
-        private MangaFromModels selectedTopManga;
         public MangaFromModels SelectedTopManga
         {
             get { return selectedTopManga; }
             set { SetProperty(ref selectedTopManga, value); OnMangaSelected(value); }
         }
-        private MangaFromModels selectedManga;
         public MangaFromModels SelectedManga
         {
             get { return selectedManga; }
             set { SetProperty(ref selectedManga, value); OnMangaSelected(value); }
-        }
-        private bool isBusy;
+        }   
         public bool IsBusy
         {
             get { return isBusy; }
             set { SetProperty(ref isBusy, value); }
         }
-
-        private string resultsLabel;
         public string ResultsLabel
         {
             get { return resultsLabel; }
             set { SetProperty(ref resultsLabel, value); }
         }
-        private string topMangaLabel;
         public string TopMangaLabel
         {
             get { return topMangaLabel; }
