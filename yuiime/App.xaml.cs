@@ -1,4 +1,5 @@
 using Prism;
+using Prism.Behaviors;
 using Prism.Ioc;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;

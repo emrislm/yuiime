@@ -7,7 +7,8 @@
              xmlns:local="clr-namespace:yuiime.ViewModels"
              xmlns:model="clr-namespace:yuiime.Models"
              x:Class="yuiime.Views.AnimeDetailsPage"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False">
 
     <Grid RowSpacing="0" BackgroundColor="#182841">
         <Grid.RowDefinitions>

@@ -36,7 +36,7 @@
                 <Entry PlaceholderColor="White" TextColor="White" BackgroundColor="#3E558B" IsPassword="True" Text="{Binding ConfirmPassword}" />
             </yummy:PancakeView>
         </StackLayout>
-        <Button Grid.Row="4" BackgroundColor="#82cfdf" TextColor="#3E558B" Text="Sign In" Command="{Binding SignInCommand}" HorizontalOptions="FillAndExpand"/>
+        <Button Grid.Row="4" BackgroundColor="#82cfdf" TextColor="#3E558B" Text="Sign In" Command="{Binding SignUpCommand}" HorizontalOptions="FillAndExpand"/>
 
         <StackLayout Grid.Row="5" Margin="0, 25, 0, 0" Spacing="0" WidthRequest="200" VerticalOptions="End" Orientation="Horizontal">
             <Label TextColor="#82cfdf" FontSize="Subtitle" Text="Already have an account?" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"/>

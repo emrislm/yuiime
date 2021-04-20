@@ -5,6 +5,7 @@ using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Xamarin.Forms;
 using yuiime.Models;
 using yuiime.Repo;
@@ -14,7 +15,7 @@ namespace yuiime.ViewModels
 {
     public class SignInPageViewModel : ViewModelBase
     {
-        private string username, password;
+        private string username, password, hashedPassword;
 
         private Users tempUser;
         private IUserRepo<Users> userRepo;
@@ -52,11 +53,11 @@ namespace yuiime.ViewModels
             }
             else
             {
-                tempUser = new Users { Username = Username, Password = Password };
+                HashedPassword = CreateMD5(password);
 
                 var user = await userRepo.GetUserAsync(username);
                 if (user != null)
-                    if (Username == user.Username && Password == user.Password)
+                    if (Username == user.Username && HashedPassword == user.Password)
                     {
                         await pageDialogService.DisplayAlertAsync("Success!", "", "Ok");
 
@@ -76,6 +77,29 @@ namespace yuiime.ViewModels
             }
         }
 
+        public static string CreateMD5(string input)
+        {
+            // Use input string to calculate MD5 hash
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convert the byte array to hexadecimal string
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
+        }
+
+        public string HashedPassword
+        {
+            get { return hashedPassword; }
+            set { SetProperty(ref hashedPassword, value); }
+        }
         public string Password
         {
             get { return password; }

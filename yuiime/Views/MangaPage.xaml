@@ -7,7 +7,9 @@
              xmlns:local="clr-namespace:yuiime.ViewModels"
              xmlns:model="clr-namespace:yuiime.Models.Manga"
              x:Class="yuiime.Views.MangaPage"
-             Title="Manga">
+             Title="Manga"
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
         <Style TargetType="StackLayout">
