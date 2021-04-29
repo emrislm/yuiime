@@ -29,7 +29,7 @@
         </Style>
     </ContentPage.Resources>
 
-    <Grid BackgroundColor="#182841" Padding="25">
+    <Grid BackgroundColor="#182841" Padding="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -40,9 +40,9 @@
                        SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
         </yummy:PancakeView>
 
-        <ScrollView Grid.Row="1" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Never" Orientation="Vertical">
+        <ScrollView  Grid.Row="1" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Never" Orientation="Vertical">
             <StackLayout>
-                <Label Margin="0, 10, 0, 10" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding TopAnimeLabel}" />
+                <Label Margin="0, 10, 0, 5" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding TopAnimeLabel}" />
                 <RefreshView x:DataType="local:AnimePageViewModel" IsRefreshing="{Binding IsBusy2, Mode=TwoWay}">
                     <CollectionView ItemsSource="{Binding TopAnimes}" SelectionMode="Single" HeightRequest="400" SelectedItem="{Binding SelectedTopAnime}">
                         <CollectionView.ItemsLayout>
@@ -79,7 +79,7 @@
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                 </RefreshView>
-                <Label Margin="0, 0, 0, 10" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding SeasonLabel}" />
+                <Label Margin="0, 10, 0, 5" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding SeasonLabel}" />
                 <RefreshView x:DataType="local:AnimePageViewModel" IsRefreshing="{Binding IsBusy2, Mode=TwoWay}">
                     <CollectionView ItemsSource="{Binding LatestAnimes}" SelectionMode="Single" HeightRequest="400" SelectedItem="{Binding SelectedSeasonalAnime}">
                         <CollectionView.ItemsLayout>
@@ -110,7 +110,7 @@
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                 </RefreshView>
-                <Label Margin="0, 10, 0, 10" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding ResultsLabel}" />
+                <Label Margin="0, 10, 0, 5" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding ResultsLabel}" />
                 <RefreshView x:DataType="local:AnimePageViewModel" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
                     <CollectionView ItemsSource="{Binding Animes}" SelectionMode="Single" HeightRequest="400" SelectedItem="{Binding SelectedAnime}">
                         <CollectionView.ItemsLayout>

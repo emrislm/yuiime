@@ -192,7 +192,6 @@ namespace yuiime.ViewModels
                     }
                     ResultsLabel = "Results";
 
-                    ScrollToPosition.End;
                 }
                 catch (Exception ex)
                 {

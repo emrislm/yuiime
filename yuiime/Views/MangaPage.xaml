@@ -28,7 +28,7 @@
         </Style>
     </ContentPage.Resources>
 
-    <Grid BackgroundColor="#182841" Padding="25">
+    <Grid BackgroundColor="#182841" Padding="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -41,9 +41,9 @@
 
         <ScrollView Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical">
             <StackLayout>
-                <Label Margin="0, 10, 0, 10" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding ResultsLabel}" />
-                <RefreshView x:DataType="local:MangaPageViewModel" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-                    <CollectionView ItemsSource="{Binding Mangas}" SelectionMode="Single" HeightRequest="400" SelectedItem="{Binding SelectedManga}">
+                <Label Margin="0, 10, 0, 5" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding TopMangaLabel}" />
+                <RefreshView x:DataType="local:MangaPageViewModel" IsRefreshing="{Binding IsBusy2, Mode=TwoWay}">
+                    <CollectionView ItemsSource="{Binding TopMangas}" SelectionMode="Single" HeightRequest="400" SelectedItem="{Binding SelectedTopManga}">
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Horizontal" />
                         </CollectionView.ItemsLayout>
@@ -78,9 +78,9 @@
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                 </RefreshView>
-                <Label Margin="0, 10, 0, 10" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding TopMangaLabel}" />
-                <RefreshView x:DataType="local:MangaPageViewModel" IsRefreshing="{Binding IsBusy2, Mode=TwoWay}">
-                    <CollectionView ItemsSource="{Binding TopMangas}" SelectionMode="Single" HeightRequest="400" SelectedItem="{Binding SelectedTopManga}">
+                <Label Margin="0, 10, 0, 5" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding ResultsLabel}" />
+                <RefreshView x:DataType="local:MangaPageViewModel" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+                    <CollectionView ItemsSource="{Binding Mangas}" SelectionMode="Single" HeightRequest="400" SelectedItem="{Binding SelectedManga}">
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Horizontal" />
                         </CollectionView.ItemsLayout>
