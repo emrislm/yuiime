@@ -33,7 +33,7 @@ namespace yuiime.ViewModels
 
         public async void GoToSignIn()
         {
-            await App.Current.MainPage.Navigation.PushAsync(new SignInPage(), true);
+            await NavigationService.NavigateAsync(nameof(SignInPage), null, true, true);
         }
 
         public Command SignUpCommand

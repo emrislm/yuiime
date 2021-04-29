@@ -6,7 +6,8 @@
             prism:ViewModelLocator.AutowireViewModel="True"
             x:Class="yuiime.Views.MainTabbedPage"
             BarBackgroundColor="#373b69"
-            NavigationPage.HasNavigationBar="False"
-            NavigationPage.HasBackButton="False">
-  
+            android:TabbedPage.ToolbarPlacement="Bottom"
+            android:TabbedPage.BarItemColor="#75bac8"
+            android:TabbedPage.BarSelectedItemColor="#82cfdf"
+            NavigationPage.HasNavigationBar="False">
 </TabbedPage>

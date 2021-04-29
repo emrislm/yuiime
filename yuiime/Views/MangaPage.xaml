@@ -7,9 +7,8 @@
              xmlns:local="clr-namespace:yuiime.ViewModels"
              xmlns:model="clr-namespace:yuiime.Models.Manga"
              x:Class="yuiime.Views.MangaPage"
-             Title="Manga"
-             NavigationPage.HasBackButton="False"
-             NavigationPage.HasNavigationBar="False">
+             Title="{Binding Title}"
+             IconImageSource="book.png">
 
     <ContentPage.Resources>
         <Style TargetType="StackLayout">
@@ -80,7 +79,7 @@
                     </CollectionView>
                 </RefreshView>
                 <Label Margin="0, 10, 0, 10" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding TopMangaLabel}" />
-                <RefreshView x:DataType="local:MangaPageViewModel" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+                <RefreshView x:DataType="local:MangaPageViewModel" IsRefreshing="{Binding IsBusy2, Mode=TwoWay}">
                     <CollectionView ItemsSource="{Binding TopMangas}" SelectionMode="Single" HeightRequest="400" SelectedItem="{Binding SelectedTopManga}">
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Horizontal" />
@@ -120,4 +119,4 @@
         </ScrollView>
     </Grid>
 
-</ContentPage>
+</ContentPage>  

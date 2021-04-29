@@ -17,7 +17,6 @@ namespace yuiime.ViewModels
     {
         private string username, password, hashedPassword;
 
-        private Users tempUser;
         private IUserRepo<Users> userRepo;
 
         public DelegateCommand GoToSignUpCommand { get; }
@@ -32,7 +31,7 @@ namespace yuiime.ViewModels
 
         public async void GoToSignUp()
         {
-            await App.Current.MainPage.Navigation.PushAsync(new SignUpPage(), true);
+            await NavigationService.NavigateAsync(nameof(SignUpPage), null, true, true);
         }
 
         public Command SignInCommand
@@ -64,7 +63,7 @@ namespace yuiime.ViewModels
                         Username = "";
                         Password = "";
 
-                        await NavigationService.NavigateAsync("NavigationPage/MainTabbedPage?createTab=AnimePage&createTab=MangaPage");
+                        await NavigationService.NavigateAsync("NavigationPage/MainTabbedPage?createTab=AnimePage&createTab=MangaPage", null, true, true);
                     }
                     else
                     {
@@ -82,7 +81,7 @@ namespace yuiime.ViewModels
             // Use input string to calculate MD5 hash
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
             {
-                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
 
                 // Convert the byte array to hexadecimal string

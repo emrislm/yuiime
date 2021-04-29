@@ -6,8 +6,6 @@ namespace yuiime.Views
     {
         public AnimePage()
         {
-            NavigationPage.SetHasNavigationBar(this, false);
-
             InitializeComponent();
         }
     }

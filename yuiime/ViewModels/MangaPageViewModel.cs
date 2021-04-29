@@ -21,7 +21,7 @@ namespace yuiime.ViewModels
     {
         private string resultsLabel, topMangaLabel;
         private MangaFromModels selectedTopManga, selectedManga;
-        private bool isBusy;
+        private bool isBusy, isBusy2;
 
         private Jikan jikan;
 
@@ -39,6 +39,8 @@ namespace yuiime.ViewModels
             TopMangas = new ObservableCollection<MangaFromModels>();
 
             this.pageDialogService = pageDialogService;
+
+            TopMangasInit();
         }
 
         public void OnAppearing()
@@ -51,6 +53,8 @@ namespace yuiime.ViewModels
 
         private async void TopMangasInit()
         {
+            IsBusy2 = true;
+
             MangaTop topMangaList = await jikan.GetMangaTop();
             foreach (var listEntry in topMangaList.Top)
             {
@@ -93,6 +97,8 @@ namespace yuiime.ViewModels
                 }
             }
             TopMangaLabel = "Best of the Best";
+
+            IsBusy2 = false;
         }
 
         public ICommand PerformSearch => new Command<string>(async (string query) =>
@@ -133,8 +139,6 @@ namespace yuiime.ViewModels
                         }
                     }
                     ResultsLabel = "Results";
-
-                    TopMangasInit();
                 }
                 catch (Exception ex)
                 {
@@ -161,7 +165,7 @@ namespace yuiime.ViewModels
             var p = new NavigationParameters();
             p.Add("manga", manga);
 
-            await NavigationService.NavigateAsync(nameof(MangaDetailsPage), p);
+            await NavigationService.NavigateAsync(nameof(MangaDetailsPage), p, true, true);
         }
 
         public MangaFromModels SelectedTopManga
@@ -173,12 +177,19 @@ namespace yuiime.ViewModels
         {
             get { return selectedManga; }
             set { SetProperty(ref selectedManga, value); OnMangaSelected(value); }
-        }   
+        }
+
+        public bool IsBusy2
+        {
+            get { return isBusy2; }
+            set { SetProperty(ref isBusy2, value); }
+        }
         public bool IsBusy
         {
             get { return isBusy; }
             set { SetProperty(ref isBusy, value); }
         }
+
         public string ResultsLabel
         {
             get { return resultsLabel; }

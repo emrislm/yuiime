@@ -19,6 +19,10 @@ namespace yuiime.ViewModels
 {
     public class AnimePageViewModel : ViewModelBase
     {
+        private AnimeFromModels selectedAnime, selectedSeasonalAnime, selectedTopAnime;
+        private string resultsLabel, seasonLabel, topAnimeLabel;
+        private bool isBusy, isBusy2;
+
         private Jikan jikan;
 
         private AnimeFromModels tempAnime;
@@ -38,18 +42,25 @@ namespace yuiime.ViewModels
             TopAnimes = new ObservableCollection<AnimeFromModels>();
 
             this.pageDialogService = pageDialogService;
+
+            LatestAnime();
+            TopAnime();
         }
 
         public void OnAppearing()
         {
             IsBusy = false;
+            IsBusy2 = false;
 
             SelectedAnime = null;
             SelectedSeasonalAnime = null;
+            SelectedTopAnime = null;
         }
 
-        private async void LatestAnimesInit()
+        private async void LatestAnime()
         {
+            IsBusy2 = true;
+
             Season season = await jikan.GetSeason();
             foreach (var seasonEntry in season.SeasonEntries)
             {
@@ -88,9 +99,13 @@ namespace yuiime.ViewModels
                 }
             }
             SeasonLabel = "Latest";
+
+            IsBusy2 = false;
         }
-        private async void TopAnimeInit()
+        private async void TopAnime()
         {
+            IsBusy2 = true;
+
             AnimeTop topAnimeList = await jikan.GetAnimeTop();
             foreach (var listEntry in topAnimeList.Top)
             {
@@ -133,6 +148,8 @@ namespace yuiime.ViewModels
                 }
             }
             TopAnimeLabel = "Best of the Best";
+
+            IsBusy2 = false;
         }
 
         public ICommand PerformSearch => new Command<string>(async (string query) =>
@@ -140,6 +157,7 @@ namespace yuiime.ViewModels
             if (query != "")
             {
                 IsBusy = true;
+                IsBusy2 = true;
 
                 try
                 {
@@ -174,8 +192,7 @@ namespace yuiime.ViewModels
                     }
                     ResultsLabel = "Results";
 
-                    LatestAnimesInit();
-                    TopAnimeInit();
+                    ScrollToPosition.End;
                 }
                 catch (Exception ex)
                 {
@@ -184,6 +201,7 @@ namespace yuiime.ViewModels
                 finally
                 {
                     IsBusy = false;
+                    IsBusy2 = false;
                 }
             }
             else
@@ -202,51 +220,50 @@ namespace yuiime.ViewModels
             var p = new NavigationParameters();
             p.Add("anime", anime);
 
-            await NavigationService.NavigateAsync(nameof(AnimeDetailsPage), p);
+            await NavigationService.NavigateAsync(nameof(AnimeDetailsPage), p, true, true);
         }
 
-        private AnimeFromModels selectedTopAnime;
         public AnimeFromModels SelectedTopAnime
         {
             get { return selectedTopAnime; }
             set { SetProperty(ref selectedTopAnime, value); OnAnimeSelected(value); }
         }
-        private AnimeFromModels selectedAnime;
-        public AnimeFromModels SelectedAnime
-        {
-            get { return selectedAnime; }
-            set { SetProperty(ref selectedAnime, value); OnAnimeSelected(value); }
-        }
-        private AnimeFromModels selectedSeasonalAnime;
         public AnimeFromModels SelectedSeasonalAnime
         {
             get { return selectedSeasonalAnime; }
             set { SetProperty(ref selectedSeasonalAnime, value); OnAnimeSelected(value); }
         }
-        private bool isBusy;
+        public AnimeFromModels SelectedAnime
+        {
+            get { return selectedAnime; }
+            set { SetProperty(ref selectedAnime, value); OnAnimeSelected(value); }
+        }
+
+        public bool IsBusy2
+        {
+            get { return isBusy2; }
+            set { SetProperty(ref isBusy2, value); }
+        }
         public bool IsBusy
         {
             get { return isBusy; }
             set { SetProperty(ref isBusy, value); }
         }
 
-        private string resultsLabel;
-        public string ResultsLabel
+        public string TopAnimeLabel
         {
-            get { return resultsLabel; }
-            set { SetProperty(ref resultsLabel, value); }
+            get { return topAnimeLabel; }
+            set { SetProperty(ref topAnimeLabel, value); }
         }
-        private string seasonLabel;
         public string SeasonLabel
         {
             get { return seasonLabel; }
             set { SetProperty(ref seasonLabel, value); }
         }
-        private string topAnimeLabel;
-        public string TopAnimeLabel
+        public string ResultsLabel
         {
-            get { return topAnimeLabel; }
-            set { SetProperty(ref topAnimeLabel, value); }
+            get { return resultsLabel; }
+            set { SetProperty(ref resultsLabel, value); }
         }
     }
 }
