@@ -6,9 +6,6 @@ namespace yuiime.Views
     {
         public SignInPage()
         {
-            NavigationPage.SetHasNavigationBar(this, false);
-            NavigationPage.SetHasBackButton(this, false);
-
             InitializeComponent();
         }
 

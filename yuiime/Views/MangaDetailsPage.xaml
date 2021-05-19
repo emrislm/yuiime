@@ -33,7 +33,7 @@
                             <!--title, ep, score-->
                             <StackLayout Orientation="Horizontal" Margin="0, 0, 0, 25">
                                 <StackLayout Orientation="Vertical" HorizontalOptions="StartAndExpand">
-                                    <Label FontAttributes="Bold" FontSize="Title"  Text="{Binding L_Title}"/>
+                                    <Label FontFamily="Montserrat-Regular" FontSize="Title" Text="{Binding L_Title}"/>
                                     <StackLayout Orientation="Horizontal">
                                         <Label FontSize="Caption" Text="{Binding L_Chapters}"/>
                                         <Label FontSize="Caption" Text="Chapters" />

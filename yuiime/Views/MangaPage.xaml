@@ -35,38 +35,38 @@
         </Grid.RowDefinitions>
 
         <yummy:PancakeView Grid.Row="0" Grid.ColumnSpan="2" Border="{yummy:BorderMarkup Color=#3E558B, Thickness='3'}" Margin="0, 0, 0, 10" CornerRadius="10">
-            <SearchBar x:Name="searchBar" PlaceholderColor="White" TextColor="White" BackgroundColor="#3E558B" Placeholder="Search manga" SearchCommand="{Binding PerformSearch}" 
+            <SearchBar x:Name="searchBar" FontFamily="Montserrat-Regular" PlaceholderColor="White" TextColor="White" BackgroundColor="#3E558B" Placeholder="Search manga" SearchCommand="{Binding PerformSearch}" 
                        SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
         </yummy:PancakeView>
 
-        <ScrollView Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical">
+        <ScrollView Grid.Row="1" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Never" Orientation="Vertical">
             <StackLayout>
-                <Label Margin="0, 10, 0, 5" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding TopMangaLabel}" />
+                <Label Margin="0, 10, 0, 5" FontSize="Medium" FontFamily="Montserrat-SemiBold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding TopMangaLabel}" />
                 <RefreshView x:DataType="local:MangaPageViewModel" IsRefreshing="{Binding IsBusy2, Mode=TwoWay}">
-                    <CollectionView ItemsSource="{Binding TopMangas}" SelectionMode="Single" HeightRequest="400" SelectedItem="{Binding SelectedTopManga}">
+                    <CollectionView ItemsSource="{Binding TopMangas}" SelectionMode="Single" HeightRequest="355" SelectedItem="{Binding SelectedTopManga}">
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Horizontal" />
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <StackLayout WidthRequest="245">
-                                    <StackLayout Orientation="Vertical" Margin="0, 0, 20, 0" BackgroundColor="#373b69" Spacing="0" x:DataType="model:MangaFromModels">
+                                <StackLayout WidthRequest="194">
+                                    <StackLayout Orientation="Vertical" Margin="0, 0, 10, 0" BackgroundColor="#373b69" Spacing="0" x:DataType="model:MangaFromModels">
                                         <!--image-->
                                         <StackLayout HorizontalOptions="Center">
-                                            <yummy:PancakeView WidthRequest="225" HeightRequest="319">
+                                            <yummy:PancakeView WidthRequest="194" HeightRequest="275">
                                                 <Image Source="{Binding L_ImgUrl}" Aspect="AspectFill"/>
                                             </yummy:PancakeView>
                                         </StackLayout>
                                         <!--END image-->
 
                                         <!--info-->
-                                        <StackLayout Padding="10, 15, 10, 15" WidthRequest="225" Orientation="Horizontal">
+                                        <StackLayout Padding="10, 15, 10, 15" WidthRequest="194" HeightRequest="50" Orientation="Horizontal">
                                             <!--name-->
-                                            <Label HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" TextColor="white" FontAttributes="Bold" FontSize="Subtitle" Text="{Binding L_Name}"/>
+                                            <Label HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" TextColor="white" FontSize="Default" Text="{Binding L_Name}"/>
                                             <!--END name-->
 
                                             <!--score-->
-                                            <yummy:PancakeView HorizontalOptions="EndAndExpand" MinimumWidthRequest="100" BackgroundColor="#182841" Padding="10, 5, 10, 5" CornerRadius="0">
+                                            <yummy:PancakeView HorizontalOptions="EndAndExpand" VerticalOptions="Center" MinimumWidthRequest="100" BackgroundColor="#182841" Padding="10, 5, 10, 5" CornerRadius="0">
                                                 <Label FontAttributes="Bold" TextColor="{Binding L_ScoreTextColor}" FontSize="Caption" Text="{Binding L_Score}" VerticalOptions="CenterAndExpand"/>
                                             </yummy:PancakeView>
                                             <!--END score-->
@@ -78,32 +78,33 @@
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                 </RefreshView>
-                <Label Margin="0, 10, 0, 5" FontSize="Medium" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding ResultsLabel}" />
+
+                <Label Margin="0, 10, 0, 5" FontSize="Medium" FontFamily="Montserrat-SemiBold" TextTransform="Uppercase" TextColor="#82cfdf" Text="{Binding ResultsLabel}" />
                 <RefreshView x:DataType="local:MangaPageViewModel" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-                    <CollectionView ItemsSource="{Binding Mangas}" SelectionMode="Single" HeightRequest="400" SelectedItem="{Binding SelectedManga}">
+                    <CollectionView ItemsSource="{Binding Mangas}" SelectionMode="Single" HeightRequest="355" SelectedItem="{Binding SelectedManga}">
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Horizontal" />
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <StackLayout WidthRequest="245">
-                                    <StackLayout Orientation="Vertical" Margin="0, 0, 20, 0" BackgroundColor="#373b69" Spacing="0" x:DataType="model:MangaFromModels">
+                                <StackLayout WidthRequest="194">
+                                    <StackLayout Orientation="Vertical" Margin="0, 0, 10, 0" BackgroundColor="#373b69" Spacing="0" x:DataType="model:MangaFromModels">
                                         <!--image-->
                                         <StackLayout HorizontalOptions="Center">
-                                            <yummy:PancakeView WidthRequest="225" HeightRequest="319">
+                                            <yummy:PancakeView WidthRequest="194" HeightRequest="275">
                                                 <Image Source="{Binding L_ImgUrl}" Aspect="AspectFill"/>
                                             </yummy:PancakeView>
                                         </StackLayout>
                                         <!--END image-->
 
                                         <!--info-->
-                                        <StackLayout Padding="10, 15, 10, 15" WidthRequest="225" Orientation="Horizontal">
+                                        <StackLayout Padding="10, 15, 10, 15" WidthRequest="194" HeightRequest="50" Orientation="Horizontal">
                                             <!--name-->
-                                            <Label HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" TextColor="white" FontAttributes="Bold" FontSize="Subtitle" Text="{Binding L_Name}"/>
+                                            <Label HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" TextColor="white" FontSize="Default" Text="{Binding L_Name}"/>
                                             <!--END name-->
 
                                             <!--score-->
-                                            <yummy:PancakeView HorizontalOptions="EndAndExpand" MinimumWidthRequest="100" BackgroundColor="#182841" Padding="10, 5, 10, 5" CornerRadius="0">
+                                            <yummy:PancakeView HorizontalOptions="EndAndExpand" VerticalOptions="Center" MinimumWidthRequest="100" BackgroundColor="#182841" Padding="10, 5, 10, 5" CornerRadius="0">
                                                 <Label FontAttributes="Bold" TextColor="{Binding L_ScoreTextColor}" FontSize="Caption" Text="{Binding L_Score}" VerticalOptions="CenterAndExpand"/>
                                             </yummy:PancakeView>
                                             <!--END score-->

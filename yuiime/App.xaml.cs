@@ -32,7 +32,6 @@ namespace yuiime
             containerRegistry.RegisterSingleton<IUserRepo<Users>, FirebaseRepo>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
             containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>();
             containerRegistry.RegisterForNavigation<AnimePage, AnimePageViewModel>();
             containerRegistry.RegisterForNavigation<MangaPage, MangaPageViewModel>();
