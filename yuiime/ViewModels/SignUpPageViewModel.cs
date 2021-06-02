@@ -53,7 +53,7 @@ namespace yuiime.ViewModels
         {
             if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
             {
-                await pageDialogService.DisplayAlertAsync("Empty Value(s)", "Please enter Email and Password", "OK");
+                await pageDialogService.DisplayAlertAsync("Empty Value(s)", "Please enter Username and Password", "OK");
             }
             else
             {

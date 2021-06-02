@@ -6,7 +6,7 @@ using Prism.Ioc;
 
 namespace yuiime.Droid
 {
-    [Activity(Theme = "@style/MainTheme",
+    [Activity(Theme = "@style/MainTheme", Icon = "@mipmap/yuiimeTeGoei", RoundIcon = "@mipmap/yuiimeTeGoei",
               ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
